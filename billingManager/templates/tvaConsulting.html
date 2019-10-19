@@ -1,0 +1,118 @@
+{% extends 'baseForm.html' %}
+{% load static %}
+{% block TitleHTML %}
+    Consultation des taux de TVA
+{% endblock %}
+
+
+{% block the_form %}
+    <div class="alert top alert-success" role="alert">
+      Operation effectué avec succès !
+    </div>
+    <div class="alert top alert-danger" role="alert">
+    Operation a échoué car elle est lié à une autre entité !
+    </div>
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+            <h2>Consultation des taux de TVA</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Consulter" "tva_consulting" %}
+                {% breadcrumb "TVA" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    {% if object_list.count != 0 %}
+    <div class="col-xs-12 col-md-4 direct-content">
+        <table class="table table-hover table-striped table-bordered" id="tva-table">
+          <thead>
+            <tr>
+              <th scope="col" width="80%">#Taux de TVA</th>
+              <th scope="col" width="20%">#Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% include 'includes/partial_tva_list.html' %}
+          </tbody>
+        </table>
+        <a href="{% url "create_provider" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+    </div>
+    {% else %}
+       Aucune TVA disponible !
+    </div>
+      <a href="{% url "create_tva" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+    {% endif %}
+
+<!-- THE MODAL WE WILL BE USING -->
+<div class="modal fade" id="modal-tva">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+$(function () {
+
+  /* Functions */
+
+  var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-tva").modal("show");
+      },
+      success: function (data) {
+        $("#modal-tva .modal-content").html(data.html_form);
+      }
+    });
+  };
+
+  var saveForm = function () {
+    var form = $(this);
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          $("#tva-table tbody").html(data.html_tva_list);
+          $("#modal-tva").modal("hide").delay(1000);
+          $(".alert-success").slideDown(300).delay(2500).slideUp(300);
+        }
+        else {
+          $("#modal-tva").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-tva").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+     }
+    });
+    return false;
+  };
+
+
+  /* Binding */
+
+  //Update TVA
+  $("#tva-table").on("click", ".js-update-tva", loadForm);
+  $("#modal-tva").on("submit", ".js-tva-update-form", saveForm);
+  //Delete TVA
+  $("#tva-table").on("click", ".js-delete-tva", loadForm);
+  $("#modal-tva").on("submit", ".js-tva-delete-form", saveForm);
+
+
+});
+</script>
+
+{% endblock %}

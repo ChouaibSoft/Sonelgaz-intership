@@ -1,0 +1,16 @@
+{% for service in object_list %}
+<tr>
+    <td>
+        {{ service.service_name }}
+    </td>
+    <td>
+        {{ service.service_abv }}
+    </td>
+    <td>
+        <button type="button" data-url="{% url 'service_update' pk=service.service_id %}" class="js-update-service"><i class="fa fa-edit"></i></button>
+        <button data-url="{% url 'service_delete' pk=service.service_id %}" class="js-delete-service"><i class="fa fa-trash-alt"></i></button>
+    </td>
+</tr>
+{% endfor%}
+
+

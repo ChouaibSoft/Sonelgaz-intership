@@ -1,0 +1,156 @@
+{% extends 'baseForm.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% load poll_extras %}
+
+{% block TitleHTML %}
+    Detail de la facture numéro {{ bill.bill_num }}
+{% endblock %}
+
+{% block header %}
+    Detail de la facture numéro {{ bill.bill_num }}
+{% endblock %}
+
+{% block the_form %}
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+            <h2>Detail de la Facture</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Facture non Traitées" "bill_consulting_not_treated_ST" %}
+                {% breadcrumb "Detail" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    {% include "includes/progress_bar.html" %}
+    <div class="direct-content">
+        <div class="bill-detail" data-id="{{ bill.bill_id }}">
+            {% include 'includes/partial_bill_detail.html' %}
+        </div>
+        {% if bill.decision_ST == "1" %}
+        <div class="actions pull-right">
+            <a href="{% url 'ST_treatment' pk=bill.bill_id %}"><button type="button" class="js-accept-bill accept-btn"><i class="fa fa-check"></i> Accepter</button></a>
+            <button type="button"  class="js-reject-bill reject-btn"><i class="fa fa-times-circle"></i> Rejeter</button>
+        </div>
+        {% elif bill.decision_ST == "2" %}
+            <div  class="actions pull-right">
+                <button type="button"  class="js-reject-bill reject-btn"><i class="fa fa-times-circle"></i> Rejeter</button>
+            </div>
+        {% endif %}
+    </div>
+
+
+    <!-- THE MODAL WE WILL BE USING -->
+    <div class="modal fade" id="modal-bill">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          </div>
+        </div>
+    </div>
+
+    <div class="popup">
+        <div class="inner">
+          <form method="get" action="{% url 'bill_treatment_ST' pk=bill.bill_id %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="modal-header">
+                <h4 class="modal-title"><strong>Choisir les Motifs de Rejet</strong></h4>
+              </div>
+              <div class="modal-body" style="padding-bottom: 45px; padding-top: 45px">
+                    {% render_field form.rejection_reasonST class="form-control chosen-select" multiple="multiple" %}
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="submit-btn">Valider</button>
+              </div>
+         </form>
+        </div>
+    </div>
+
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+
+    <script>
+
+    $(document).ready(function () {
+        // Popup
+        $(".js-reject-bill").click(function () {
+           $(".popup").fadeIn(200);
+           $("#id_rejection_reasonST").chosen();
+
+        });
+
+        $(".popup").click(function () {
+           $(this).fadeOut(200);
+        });
+
+        $(".popup .inner").click(function (e) {
+           e.stopPropagation();
+        });
+
+        $(".popup .close").click(function (e) {
+            e.preventDefault();
+           $(".popup").fadeOut(200);
+        });
+    });
+
+    var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-bill").modal("show");
+      },
+      success: function (data) {
+        $("#modal-bill .modal-content").html(data.html_form);
+      }
+    });
+    };
+    var saveForm = function () {
+    var form = $(this),
+        id = $(".js-bill-update-form").data("id");
+        if (window.location.hostname === "127.0.0.1"){
+            redirect_url = "http://" + window.location.hostname + ":8000/bill_consulting_not_treated_ST";
+        }else{
+            redirect_url = window.location.hostname + ":8000/bill_consulting_not_treated_ST";
+        }
+
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+            if (form.attr("action").includes("update")){
+                window.location = $(".bill-detail").data("id");
+            }else{
+                window.location = redirect_url;
+            }}
+        else {
+          $("#modal-bill").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-bill").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+      }
+    });
+    return false;
+    };
+
+
+    //Update Bill
+    $(".actions").on("click", ".js-update-bill", loadForm);
+    $("#modal-bill").on("submit", ".js-bill-update-form", saveForm);
+
+    //Delete Bill
+    $(".actions").on("click", ".js-delete-bill", loadForm);
+    $("#modal-bill").on("submit", ".js-bill-delete-form", saveForm);
+
+    </script>
+{% endblock %}

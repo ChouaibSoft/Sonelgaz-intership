@@ -1,0 +1,42 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+
+
+{% block TitleHTML %}
+    Nouveau Motif
+{% endblock %}
+
+
+{% block the_form %}
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+        <h2>Nouveau Motif</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Ajouter" "create_r_r" %}
+                {% breadcrumb "Motif" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="direct-content">
+    <form method="post" action="{% url 'create_r_r' %} ">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label for="inputReason" class="col-sm-2 col-form-label">{{ form.reason.label_tag }}</label>
+        <div class="col-sm-10">
+          {% render_field form.reason class="form-control" placeholder="Motif" type="text"  id="inputReason" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="submit-btn">
+              <i class="far fa-check-square btn-icon-prepend"></i>
+              Valider</button>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}

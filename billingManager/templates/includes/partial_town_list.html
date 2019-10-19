@@ -1,0 +1,14 @@
+ {% for town in object_list %}
+    <tr>
+        <td>
+            {{ town.town_name }}
+        </td>
+        <td>
+            {{ town.postal_code }}
+        </td>
+        <td>
+            <button type="button" data-url="{% url 'town_update' pk=town.town_id %}" class="js-update-town"><i class="fa fa-edit"></i></button>
+            <button data-url="{% url 'town_delete' pk=town.town_id %}" class="js-delete-town"><i class="fa fa-trash-alt"></i></button>
+        </td>
+    </tr>
+{% endfor%}

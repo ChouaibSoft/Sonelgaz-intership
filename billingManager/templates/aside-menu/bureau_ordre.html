@@ -1,0 +1,126 @@
+{% load static %}
+<!-- Start Aside Menu -->
+
+<aside>
+  <i class="fa fa-bars visible-sm visible-xs"></i>
+  <div class="row text-center">
+      <div class="col-xs-5 profile-image">
+        <img src="{% static 'images/index.png' %}" alt="profile-image" class="img-responsive img-thumbnail">
+      </div>
+      <div class="col-xs-7">
+        <div class="profile-information">
+          <h2>Bienvenue,</h2>
+          <h2>{{ user }}</h2>
+          <h3>@Bureau d'ordre</h3>
+        </div>
+      </div>
+      <div class="link col-xs-12">
+        <ul class="list-unstyled">
+            <li class="item item-dropdown"><i class="fa fa-cogs"></i>Traiter<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'bill_consulting_opened' %}"><li {% url 'bill_consulting_opened' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Facture en Cours</li></a>
+                </ul>
+            </li>
+            <li class="item item-dropdown"><i class="fa fa-book"></i>Consulter<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'bill_consulting_closed' %}"><li {% url 'bill_consulting_closed' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Factures</li></a>
+                    <a href="{% url 'bill_consulting_rejected_BO' %}"><li {% url 'bill_consulting_rejected_BO' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Factures Rejetées</li></a>
+                    <a href="{% url 'provider_consulting' %}"><li {% url 'provider_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Fournisseurs</li></a>
+                    <a href="{% url 'town_consulting' %}"><li {% url 'town_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Villes</li></a>
+                    <a href="{% url 'service_consulting' %}"><li {% url 'service_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Services</li></a>
+                    <a href="{% url 'district_consulting' %}"><li {% url 'district_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Districts</li></a>
+                    <a href="{% url 'tva_consulting' %}"><li {% url 'tva_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>TVA</li></a>
+                    <a href="{% url 'reasons_consulting' %}"><li {% url 'reasons_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Motifs de Rejets</li></a>
+                </ul>
+            </li>
+            <li class="item item-dropdown"><i class="fa fa-plus"></i>Ajouter<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'create_bill' %}"><li {% url 'create_bill' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Facture</li></a>
+                    <a href="{% url 'create_provider' %}"><li {% url 'create_provider' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Fournisseur</li></a>
+                    <a href="{% url 'create_town' %}"><li {% url 'create_town' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Ville</li></a>
+                    <a href="{% url 'create_service' %}"><li {% url 'create_service' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Service</li></a>
+                    <a href="{% url 'create_district' %}"><li {% url 'create_district' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>District</li></a>
+                    <a href="{% url 'create_tva' %}"><li {% url 'create_tva' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>TVA</li></a>
+                    <a href="{% url 'create_r_r' %}"><li {% url 'create_r_r' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Motifs de Rejets</li></a>
+                </ul>
+            </li>
+            <a href="{% url 'slip_edit' %}"><li  {% url 'slip_edit' as url %}
+                    {% if request.path == url%} class='item selected' {% endif %} class="item"><i class="fa fa-print"></i> Edition du Bordereau</li></a>
+            <a href="{% url 'logout' %}"><li class="item"><i class="fa fa-sign-out-alt"></i> Déconnecter</li></a>
+        </ul>
+      </div>
+    </div>
+</aside>
+
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+
+      // Fixed Menu
+      $("aside .fa-bars").on("click", function(){
+        var fixed_menu = $(this).parent("aside");
+        fixed_menu.toggleClass("is-visible");
+        if (fixed_menu.hasClass("is-visible")){
+          fixed_menu.animate({
+            left : "-2px"
+          },500);
+        }else{
+           fixed_menu.animate({
+            left : '-256px'
+          },500);
+        }
+      });
+      // Adjust Aside Menu During Window Resize
+      $(window).resize(function () {
+         var aside = $("aside");
+         if(window.innerWidth > 992){
+            if (aside.hasClass("is-visible")){
+              asode.animate({
+                left : '-256px'
+              },500);
+            }else{
+               aside.animate({
+                left : '0'
+              },500);
+            }
+          }else{
+             if (aside.hasClass("is-visible")){
+                aside.animate({
+                left : "-2px"
+                },500);
+            }else{
+                aside.animate({
+                left : '-256px'
+                },500);
+            }
+         }
+      });
+    // Add Selected Class in Active Link
+    $(".info").each(function () {
+       if ($(this).find("li").hasClass("sub-selected")){
+           $(this).prev().addClass("selected").siblings(".item-dropdown").removeClass("now").end().next().slideDown(250)
+       .siblings(".info").slideUp(250);
+       $(".sub-selected").css("fontWeight", "bold");
+       }
+    });
+</script>
+
+<!-- End Aside Menu -->

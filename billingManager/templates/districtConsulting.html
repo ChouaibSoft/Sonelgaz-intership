@@ -1,0 +1,108 @@
+{% extends 'baseForm.html' %}
+{% load static %}
+{% block TitleHTML %}
+    Consultation des Districts
+{% endblock %}
+
+{% block the_form %}
+<div class="alert top alert-success" role="alert">
+  Operation effectué avec succès !
+</div>
+<div class="alert top alert-danger" role="alert">
+    Operation a échoué car elle est lié à une autre entité !
+</div>
+{% load django_bootstrap_breadcrumbs %}
+<div class="row">
+    <div class="col-xs-6">
+        <h2>Consultation des Districts</h2>
+    </div>
+    <div class="col-xs-6">
+        {% block content %}
+            {{ block.super }}
+            {% breadcrumb "Consulter" "district_consulting" %}
+            {% breadcrumb "District" "#" %}
+        {% endblock %}
+    </div>
+</div>
+<div class="direct-content col-xs-12 col-md-6">
+    <table class="table table-hover table-striped table-bordered" id="district-table">
+      <thead>
+        <tr>
+          <th scope="col" width="85%">#Disignation du district</th>
+          <th scope="col" width="15%">#Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% include 'includes/partial_district_list.html' %}
+      </tbody>
+    </table>
+    <a href="{% url "create_district" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+</div>
+<!-- THE MODAL WE WILL BE USING -->
+<div class="modal fade" id="modal-district">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+$(function () {
+
+  /* Functions */
+
+  var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-district").modal("show");
+      },
+      success: function (data) {
+        $("#modal-district .modal-content").html(data.html_form);
+      }
+    });
+  };
+
+  var saveForm = function () {
+    var form = $(this);
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          $("#district-table tbody").html(data.html_district_list);
+          $("#modal-district").modal("hide").delay(1000);
+          $(".alert-success").slideDown(300).delay(2500).slideUp(300);
+        }
+        else {
+          $("#modal-district .modal-content").html(data.html_form);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-district").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+     }
+    });
+    return false;
+  };
+
+
+  /* Binding */
+
+  //Update District
+  $("#district-table").on("click", ".js-update-district", loadForm);
+  $("#modal-district").on("submit", ".js-district-update-form", saveForm);
+
+  // Delete District
+  $("#district-table").on("click", ".js-delete-district", loadForm);
+  $("#modal-district").on("submit", ".js-district-delete-form", saveForm);
+
+});
+</script>
+{% endblock %}

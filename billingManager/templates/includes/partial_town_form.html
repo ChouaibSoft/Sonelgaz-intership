@@ -1,0 +1,13 @@
+ {% load widget_tweaks %}
+  <div class="form-group row">
+    <label for="inputTownName" class="col-sm-4 col-form-label">{{ form.town_name.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.town_name class="form-control" placeholder="Nom de la ville" type="text"  id="inputTownName" %}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPostalCode" class="col-sm-4 col-form-label">{{ form.postal_code.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.postal_code class="form-control" placeholder="Code postal" type="text"  id="inputPostalCode" %}
+    </div>
+  </div>

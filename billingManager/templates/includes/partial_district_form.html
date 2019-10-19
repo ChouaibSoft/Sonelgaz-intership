@@ -1,0 +1,7 @@
+ {% load widget_tweaks %}
+  <div class="form-group row">
+    <label for="inputDistrictDesignation" class="col-sm-4 col-form-label">{{ form.district_designation.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.district_designation class="form-control" placeholder="Designation du district" type="text"  id="inputDistrictDesignation" %}
+    </div>
+  </div>

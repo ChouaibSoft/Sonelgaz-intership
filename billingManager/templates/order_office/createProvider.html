@@ -1,0 +1,103 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+
+
+{% block TitleHTML %}
+    Nouveau fournisseur
+{% endblock %}
+
+
+{% block the_form %}
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+        <h2>Nouveau Fournisseur</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Ajouter" "create_provider" %}
+                {% breadcrumb "Fournisseur" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="direct-content">
+    <form method="post" action="{% url 'create_provider' %} ">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label for="inputGender" class="col-sm-3 col-form-label">{{ form.gender.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.gender class="form-control" placeholder="Genre" type="text"  id="inputGender" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputLastName" class="col-sm-3 col-form-label">{{ form.provider_last_name.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.provider_last_name class="form-control" placeholder="Nom" type="text"  id="inputLastName" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputFirstName" class="col-sm-3 col-form-label">{{ form.provider_first_name.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.provider_first_name class="form-control" placeholder="Prènom" type="text"  id="inputFirstName" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputAdress" class="col-sm-3 col-form-label">{{ form.provider_address.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.provider_address class="form-control" placeholder="Adresse" type="text"  id="inputAdress" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputTown" class="col-sm-3 col-form-label">{{ form.town.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.town class="form-control" placeholder="Ville" type="text"  id="inputTown" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail" class="col-sm-3 col-form-label">{{ form.email.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.email class="form-control" placeholder="Email" type="email"  id="inputEmail" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputFixedPhone" class="col-sm-3 col-form-label">{{ form.fixed_phone.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.fixed_phone class="form-control" placeholder="Téléphone fix" type="text" min="9" max="9" id="inputFixedPhone" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputMobilePhone" class="col-sm-3 col-form-label">{{ form.mobile_phone.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.mobile_phone class="form-control" placeholder="Téléphone mobile" type="text" min="10" max="10" id="inputMobilePhone" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputRib" class="col-sm-3 col-form-label">{{ form.rib.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.rib class="form-control" placeholder="RIB" type="text"  id="inputFixedRib" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputNif" class="col-sm-3 col-form-label">{{ form.nif.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.nif class="form-control" placeholder="NIF" type="text"  id="inputFixedRif" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputrCommerce" class="col-sm-3 col-form-label">{{ form.r_commerce.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.r_commerce  class="form-control" placeholder="Raison Comercial" type="text"  id="inputrCommerce" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="submit-btn">
+              <i class="far fa-check-square btn-icon-prepend"></i>
+              Valider</button>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}
+

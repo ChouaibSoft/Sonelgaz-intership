@@ -1,0 +1,103 @@
+{% load static %}
+<!-- Start Aside Menu -->
+
+<aside>
+  <i class="fa fa-bars visible-sm visible-xs"></i>
+  <div class="row text-center">
+      <div class="col-xs-5 profile-image">
+        <img src="{% static 'images/index.png' %}" alt="profile-image" class="img-responsive img-thumbnail">
+      </div>
+      <div class="col-xs-7">
+        <div class="profile-information">
+          <h2>Bienvenue,</h2>
+          <h2>{{ user }}</h2>
+          <h3>@Service Traitant</h3>
+        </div>
+      </div>
+      <div class="link col-xs-12">
+        <ul class="list-unstyled">
+            <li class="item item-dropdown"><i class="fa fa-cogs"></i>Traiter<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'bill_consulting_not_treated_ST' %}"><li {% url 'bill_consulting_not_treated_ST' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>F.non Traitées</li></a>
+                    <a href="{% url 'bill_consulting_opened_ST' %}"><li {% url 'bill_consulting_opened_ST' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Facture en Cours</li></a>
+                </ul>
+            </li>
+            <li class="item item-dropdown"><i class="fa fa-book"></i>Consulter<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'bill_consulting_closed_ST' %}"><li {% url 'bill_consulting_closed_ST' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Factures</li></a>
+                </ul>
+            </li>
+            <li class="item item-dropdown"><i class="fa fa-plus"></i>Motifs de Rejets<i class="fa fa-less-than"></i></li>
+            <li class="info">
+                <ul class="list-unstyled">
+                    <a href="{% url 'reasons_consulting' %}"><li {% url 'reasons_consulting' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Consulter</li></a>
+                    <a href="{% url 'create_r_r' %}"><li {% url 'create_r_r' as url %}
+                    {% if request.path == url%} class='sub-selected' {% endif %}>Ajouter</li></a>
+                </ul>
+            </li>
+            <a href="#"><li class="item"><i class="fa fa-home"></i> Edition Bordereau</li></a>
+            <a href="{% url 'logout' %}"><li class="item"><i class="fa fa-sign-out-alt"></i> Déconnecter</li></a>
+        </ul>
+      </div>
+    </div>
+</aside>
+
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+      // Fixed Menu
+      $("aside .fa-bars").on("click", function(){
+        var fixed_menu = $(this).parent("aside");
+        fixed_menu.toggleClass("is-visible");
+        if (fixed_menu.hasClass("is-visible")){
+          fixed_menu.animate({
+            left : "-2px"
+          },500);
+        }else{
+           fixed_menu.animate({
+            left : '-256px'
+          },500);
+        }
+      });
+      // Adjust Aside Menu During Window Resize
+      $(window).resize(function () {
+         var aside = $("aside");
+         if(window.innerWidth > 992){
+            if (aside.hasClass("is-visible")){
+              asode.animate({
+                left : '-256px'
+              },500);
+            }else{
+               aside.animate({
+                left : '0'
+              },500);
+            }
+          }else{
+             if (aside.hasClass("is-visible")){
+                aside.animate({
+                left : "-2px"
+                },500);
+            }else{
+                aside.animate({
+                left : '-256px'
+                },500);
+            }
+         }
+      });
+
+    // Add Selected Class in Active Link
+    $(".info").each(function () {
+       if ($(this).find("li").hasClass("sub-selected")){
+           $(this).prev().addClass("selected").siblings(".item-dropdown").removeClass("now").end().next().slideDown(250)
+       .siblings(".info").slideUp(250);
+       $(".sub-selected").css("fontWeight", "bold");
+       }
+    });
+</script>
+
+<!-- End Aside Menu -->

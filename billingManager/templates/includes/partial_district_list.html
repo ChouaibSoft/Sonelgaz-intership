@@ -1,0 +1,11 @@
+{% for district in object_list %}
+    <tr>
+        <td>
+            {{ district.district_designation }}
+        </td>
+        <td>
+            <button type="button" data-url="{% url 'district_update' pk=district.district_id %}" class="js-update-district"><i class="fa fa-edit"></i></button>
+            <button data-url="{% url 'district_delete' pk=district.district_id %}" class="js-delete-district"><i class="fa fa-trash-alt"></i></button>
+        </td>
+    </tr>
+{% endfor%}

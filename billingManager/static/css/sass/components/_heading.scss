@@ -1,0 +1,52 @@
+.heading{
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: .60px;
+    color: #777777 !important;
+      @media #{$maxSmall} {
+          font-size: 23px;
+      }
+      @media #{$minMedium} {
+          font-size: 24px;
+      }
+      @media #{$maxMobile} {
+          font-size: 22px !important;
+      }
+    &:after{
+    background: #777777;
+    bottom: -10px;
+    content: "";
+    display: block;
+    height: 3px;
+    position: relative;
+    width: 52px;
+    }
+}
+.coloring-heading {
+    font-size: 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $mainColor;
+    letter-spacing: .96px;
+    position: relative;
+    margin-bottom: 0;
+    @media #{$maxSmall} {
+        font-size: 30px !important;
+    }
+    @media #{$minMedium} {
+        font-size: 31px !important;
+    }
+    @media #{$maxMobile} {
+        font-size: 25px !important;
+    }
+    span {
+        color: #242424;
+    }
+}
+.coloring-heading-reverse{
+    @extend .coloring-heading;
+    color: #fff;
+    span{
+        color: $mainColor;
+    }
+}

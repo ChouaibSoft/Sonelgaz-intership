@@ -1,0 +1,31 @@
+{% load poll_extras %}
+{% for provider in provider_filters %}
+    <tr>
+        <td>
+            {{ provider }}
+        </td>
+        <td>
+            {{ provider.provider_address }}
+        </td>
+        <td>
+            {{ provider.town }}
+        </td>
+        <td>
+            {{ provider.fixed_phone }}
+        </td>
+        <td>
+            {{ provider.mobile_phone }}
+        </td>
+        <td>
+            {{ provider.rib }}
+        </td>
+        <td>
+            {{ provider.nif }}
+        </td>
+        <td>
+            <a href="{% url 'provider_detail' pk=provider.provider_id %}"><i class="fa fa-plus"></i></a>
+            <button type="button" data-url="{% url 'provider_update' pk=provider.provider_id %}" class="js-update-provider"><i class="fa fa-edit"></i></button>
+            <button data-url="{% url 'provider_delete' pk=provider.provider_id %}" class="js-delete-provider"><i class="fa fa-trash-alt"></i></button>
+        </td>
+    </tr>
+{% endfor%}

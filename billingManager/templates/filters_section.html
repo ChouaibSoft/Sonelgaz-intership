@@ -1,0 +1,37 @@
+{% load widget_tweaks %}
+{% load static %}
+
+    <div class="row">
+        <div class="col-xs-6 col-md-2" style="padding-left: 0">
+            {% render_field filter.form.bill_num class="form-control" placeholder="Numéro" %}
+        </div>
+        <div class="col-xs-6 col-md-2">
+            {% render_field filter.form.provider class="form-control" %}
+        </div>
+        <div class="col-xs-6 col-md-3">
+            {% render_field filter.form.service class="form-control" %}
+        </div>
+        <div class="col-xs-6 col-md-2">
+            {% render_field filter.form.district class="form-control" %}
+        </div>
+        <div class="col-xs-6 col-md-2">
+            {% render_field filter.form.entry_date class="form-control" %}
+        </div>
+        <div class="col-xs-12 col-md-1">
+            <button type="submit" class="filter-btn">Filter</button>
+        </div>
+    </div>
+
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script>
+    $('#id_provider option:first').text('Par fournisseur');
+    $('#id_service option:first').text('Par service');
+    $('#id_district option:first').text('Par district');
+
+    $('#id_entry_date option:eq(0)').text("Tous");
+    $('#id_entry_date option:eq(1)').text("Aujourd'hui");
+    $('#id_entry_date option:eq(2)').text("7 derniers jours");
+    $('#id_entry_date option:eq(3)').text("Ce mois");
+    $('#id_entry_date option:eq(4)').text("Cette année");
+    $('#id_entry_date option:eq(5)').text("Hier");
+    </script>

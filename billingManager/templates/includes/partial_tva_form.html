@@ -1,0 +1,7 @@
+ {% load widget_tweaks %}
+  <div class="form-group row">
+    <label for="inputTownName" class="col-sm-4 col-form-label">{{ form.tva_rate.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.tva_rate class="form-control" placeholder="Taux de TVA" type="text"  id="inputTownName" %}
+    </div>
+  </div>

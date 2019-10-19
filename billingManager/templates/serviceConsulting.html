@@ -1,0 +1,121 @@
+{% extends 'baseForm.html' %}
+{% load static %}
+{% load poll_extras %}
+
+{% block TitleHTML %}
+    Consultation des Services
+{% endblock %}
+
+
+{% block the_form %}
+<div class="alert top alert-success" role="alert">
+  Operation effectué avec succès !
+</div>
+<div class="alert top alert-danger" role="alert">
+    Operation a échoué car il est lié à une autre entité !
+</div>
+{% load django_bootstrap_breadcrumbs %}
+<div class="row">
+    <div class="col-xs-6">
+        <h2>Consultation des Services</h2>
+    </div>
+    <div class="col-xs-6">
+        {% block content %}
+            {{ block.super }}
+            {% breadcrumb "Consulter" "service_consulting" %}
+            {% breadcrumb "Services" "#" %}
+        {% endblock %}
+    </div>
+</div>
+<div class="direct-content">
+    {% if object_list.count != 0 %}
+    <table class="table table-hover table-striped table-bordered" id="service-table">
+      <thead>
+        <tr>
+          <th scope="col" width="62%">#Nom du service</th>
+          <th scope="col" width="30%">#Abreviation du service</th>
+          <th scope="col" width="8%">#Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% include 'includes/partial_service_list.html' %}
+      </tbody>
+    </table>
+    <a href="{% url "create_service" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+    {% include "pagination.html" with page=object_list %}
+    {% else %}
+    <div class="alert alert-info" role="alert">
+       Aucun service disponible !
+    </div>
+    <a href="{% url "create_service" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+    {% endif %}
+</div>
+<!-- THE MODAL WE WILL BE USING -->
+<div class="modal fade" id="modal-service">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+$(function () {
+
+  /* Functions */
+
+  var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-service").modal("show");
+      },
+      success: function (data) {
+        $("#modal-service .modal-content").html(data.html_form);
+      }
+    });
+  };
+
+  var saveForm = function () {
+    var form = $(this);
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          $("#service-table tbody").html(data.html_service_list);
+          $("#modal-service").modal("hide").delay(1000);
+          $(".alert-success").slideDown(300).delay(2500).slideUp(300);
+        }
+        else {
+          $("#modal-service .modal-content").html(data.html_form);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-service").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+     }
+    });
+    return false;
+  };
+
+
+    /* Binding */
+
+    //Update Service
+    $("#service-table").on("click", ".js-update-service", loadForm);
+    $("#modal-service").on("submit", ".js-service-update-form", saveForm);
+
+    // Delete Service
+    $("#service-table").on("click", ".js-delete-service", loadForm);
+    $("#modal-service").on("submit", ".js-service-delete-form", saveForm);
+
+});
+</script>
+{% endblock %}

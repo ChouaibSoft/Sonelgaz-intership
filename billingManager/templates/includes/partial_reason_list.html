@@ -1,0 +1,11 @@
+{% for reason in object_list %}
+    <tr>
+        <td width="80%">
+            {{ reason.reason }}
+        </td>
+        <td width="20%">
+            <button type="button" data-url="{% url 'reason_update' pk=reason.rejection_id %}" class="js-update-reason"><i class="fa fa-edit"></i></button>
+            <button data-url="{% url 'reason_delete' pk=reason.rejection_id %}" class="js-delete-reason"><i class="fa fa-trash-alt"></i></button>
+        </td>
+    </tr>
+{% endfor%}

@@ -1,0 +1,11 @@
+{% for tva in object_list %}
+    <tr>
+        <td>
+            {{ tva.tva_rate }}
+        </td>
+        <td>
+            <button type="button" data-url="{% url 'tva_update' pk=tva.tva_id %}" class="js-update-tva"><i class="fa fa-edit"></i></button>
+            <button data-url="{% url 'tva_delete' pk=tva.tva_id %}" class="js-delete-tva"><i class="fa fa-trash-alt"></i></button>
+        </td>
+    </tr>
+{% endfor%}

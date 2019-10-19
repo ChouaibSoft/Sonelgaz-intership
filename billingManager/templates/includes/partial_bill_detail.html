@@ -1,0 +1,162 @@
+{% load poll_extras %}
+
+
+<div class="row">
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Numéro du facture :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.bill_num }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Object :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.object }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Type de facture :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.bill_type }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Date de facturation</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.billing_date }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Date de saisie</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.entry_date }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Fournisseur :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.provider }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Service :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.service }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>District :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.district }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Montant HT :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.ht_amount}} DA</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Taux TVA :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.tva }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Autres frais :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.other_coasts }} DA</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Taux de pénalité :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.penalty_rate }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-6 col-md-2">
+            <label>Montant TTC :</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.ht_amount|tva:bill.tva.tva_rate }} DA</label>
+        </div>
+    </div>
+    {% if bill.slip  %}
+        <div>
+        <div class="col-xs-6 col-md-2" style="padding-right: 0">
+            <label>Numéro du Bordereau</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <label class="item-name">{{ bill.slip }}</label>
+        </div>
+    </div>
+    {% endif %}
+    {% if bill.rejection_reasonBO.all.count != 0  %}
+        <div>
+        <div class="col-xs-6 col-md-2" style="padding-right: 0">
+            <label>Reason(s) de rejet BO</label>
+        </div>
+        <div class="col-xs-6 col-md-10">
+            <ul class="list-inline">
+                {% for reason in bill.rejection_reasonBO.all %}
+                    <li>{{ reason }},</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if bill.rejection_reasonST.all.count != 0  %}
+    <div>
+        <div class="col-xs-6 col-md-2" style="padding-right: 0">
+            <label>Reason(s) de rejet ST</label>
+        </div>
+        <div class="col-xs-6 col-md-7">
+            <ul class="list-inline">
+                {% for reason in bill.rejection_reasonST.all %}
+                    <li>{{ reason }},</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% if bill.rejection_reasonFC.all.count != 0  %}
+    <div>
+        <div class="col-xs-6 col-md-2" style="padding-right: 0">
+            <label>Reason(s) de rejet FC</label>
+        </div>
+        <div class="col-xs-6 col-md-7">
+            <ul class="list-inline">
+                {% for reason in bill.rejection_reasonFC.all %}
+                    <li>{{ reason }},</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+</div>

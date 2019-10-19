@@ -1,0 +1,7 @@
+ {% load widget_tweaks %}
+  <div class="form-group row">
+    <label for="inputReason" class="col-sm-4 col-form-label">{{ form.reason.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.reason class="form-control" placeholder="Reason" type="text"  id="inputReason" %}
+    </div>
+  </div>

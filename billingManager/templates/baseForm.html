@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <!-- IE Compatibility Meta -->
+      <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <!-- First Mobile Meta -->
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel='stylesheet prefetch' href='{% static "css/chosen.css" %}'>
+    <!-- Latest compiled and minified CSS -->
+
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">    <!-- Optional theme -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/data-table.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
+      <!--[if It IE 9]>
+        <script src="{% static "js/html5shiv.min.js" %}"></script>
+        <script src="{% static "js/respond.min.js" %}"></script>
+        <![endif]-->
+        <!-- End Navbar -->
+
+      <!-- End My CSS FIles -->
+    <title>
+    {% block TitleHTML %}
+    {% endblock %}
+    </title>
+    <link href="{% static "css/base.css" %}" rel='stylesheet'>
+</head>
+<body>
+
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+{% endblock %}
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+             <a href="#"><img src="{% static 'images/SDC.png' %}"></a>
+             <div class="acronim pull-right">
+                 <h2>Direction <br> Distrubution <br> Tlemcen</h2>
+             </div>
+        </div>
+      </div>
+      <div class="collapse navbar-collapse hidden-sm hidden-xs" id="ournavbar">
+        <ul class="nav navbar-nav">
+              <li class="search-field"><a class="#">
+                  <i class="fa fa-bars"></i>
+                  <i class="fa fa-search"></i>
+                  <input type="text" placeholder="Rechercher ici.."/></a>
+              </li>
+        </ul>
+      </div>
+      <div class="logout pull-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% static "images/index.png" %}" alt="profile-image" class="img-responsive img-thumbnail"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+               <li><a href="{% url 'logout' %}">Déconnecter</a></li>
+            </ul>
+          </li>
+      </div>
+   </div>
+  </nav>
+
+
+  <section class="dashboard">
+    <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3" style="padding: 0 !important;">
+          {% if request.user.groups.all.0.id == 1 %}
+            {% include "aside-menu/bureau_ordre.html" %}
+          {% elif request.user.groups.all.0.id == 2 %}
+              {% include "aside-menu/service_traitant.html" %}
+          {% elif request.user.groups.all.0.id == 3 %}
+              {% include "aside-menu/service_finance.html" %}
+          {% elif request.user.groups.all.0.id == 4 %}
+              {% include "aside-menu/staff.html" %}
+          {% endif %}
+      </div>
+      <div class="col-xs-12 col-md-9">
+        <!-- Start Main Content -->
+        <div class="content">
+            {% block the_form %}
+            {% endblock %}
+        </div>
+        <!-- End Main Content -->
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "js/chosen.jquery.min.js" %}"></script>
+    <script src="{% static "js/fontawesome.min.js" %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {% block javascript %}
+    {% endblock %}
+    </body>
+</html>

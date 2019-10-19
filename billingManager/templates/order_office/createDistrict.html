@@ -1,0 +1,41 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+
+{% block TitleHTML %}
+    Nouveau District
+{% endblock %}
+
+
+{% block the_form %}
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+        <h2>Nouveau District</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Ajouter" "create_district" %}
+                {% breadcrumb "District" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="direct-content">
+    <form method="post" action="{% url 'create_district' %} ">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label for="inputDistrictDesignation" class="col-sm-3 col-form-label">{{ form.district_designation.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.district_designation class="form-control" placeholder="Designation du district" type="text"  id="inputDistrictDesignation" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="submit-btn">
+              <i class="far fa-check-square btn-icon-prepend"></i>
+              Valider</button>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}

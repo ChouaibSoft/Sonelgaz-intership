@@ -1,0 +1,23 @@
+{% load poll_extras %}
+{% for bill in bills %}
+<tr>
+    <td>
+        {{ bill.bill_num }}
+    </td>
+    <td>
+        {{ bill.provider.provider_last_name}} {{ bill.provider.provider_first_name }}
+    </td>
+    <td>
+        {{ bill.service }}
+    </td>
+    <td>
+        {{ bill.district}}
+    </td>
+    <td>
+        {{ bill.entry_date}}
+    </td>
+    <td>
+        {{ bill.ht_amount}} DA
+    </td>
+</tr>
+{% endfor%}

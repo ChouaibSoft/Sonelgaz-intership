@@ -1,0 +1,132 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+{% load poll_extras %}
+{% load static %}
+
+{% block TitleHTML %}
+Consultation des Factures
+{% endblock %}
+
+{% block the_form %}
+<div class="alert top alert-success" role="alert">
+  Operation effectué avec succès !
+</div>
+<div class="alert top alert-danger" role="alert">
+    Operation a échoué car elle est lié à une autre entité !
+</div>
+{% load django_bootstrap_breadcrumbs %}
+<div class="row">
+    <div class="col-xs-6">
+        <h2>Consultation des Factures</h2>
+    </div>
+    <div class="col-xs-6">
+        {% block content %}
+            {{ block.super }}
+            {% breadcrumb "Consulter" "bill_consulting_closed_ST" %}
+            {% breadcrumb "Factures" "#" %}
+        {% endblock %}
+    </div>
+</div>
+{% if filter.qs.count != 0 %}
+<div class="direct-content">
+    <div class="filter-section">
+        <form method="get">
+           {% csrf_token %}
+            {% include '../filters_section.html' %}
+        </form>
+    </div>
+    <table class="table table-hover table-striped table-bordered" id="bill-table">
+      <thead>
+        <tr>
+          <th scope="col">Numero</th>
+          <th scope="col">Fournisseur</th>
+          <th scope="col">Service</th>
+          <th scope="col">District</th>
+          <th scope="col">Date saisie</th>
+          <th scope="col">Montant HT</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% include 'includes/partial_bill_list_closed_ST.html' %}
+      </tbody>
+    </table>
+    {% include "pagination.html" with page=bill_filters %}
+</div>
+{% else %}
+<div class="direct-content">
+    <div class="alert alert-info" role="alert">
+        Aucune facture disponible !
+    </div>
+</div>
+{% endif %}
+<!-- THE MODAL WE WILL BE USING -->
+<div class="modal fade" id="modal-bill">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script>
+    $(function () {
+
+    /* Functions */
+
+    var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-bill").modal("show");
+      },
+      success: function (data) {
+        $("#modal-bill .modal-content").html(data.html_form);
+      }
+    });
+    };
+
+    var saveForm = function () {
+    var form = $(this),
+        id = $(".js-bill-update-form").data("id");
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          $("#bill-table tbody").html(data.html_bill_list);
+          $("#modal-bill").modal("hide").delay(1000);
+          $(".alert-success").slideDown(300).delay(2500).slideUp(300);
+        }
+        else {
+          $("#modal-bill").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-bill").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+     }
+    });
+    return false;
+    };
+
+
+    //Update Bill
+    $("#bill-table").on("click", ".js-update-bill", loadForm);
+    $("#modal-bill").on("submit", ".js-bill-update-form", saveForm);
+
+    //Delete Bill
+    $("#bill-table").on("click", ".js-delete-bill", loadForm);
+    $("#modal-bill").on("submit", ".js-bill-delete-form", saveForm);
+
+
+
+    });
+    </script>
+{% endblock %}

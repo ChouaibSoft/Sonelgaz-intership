@@ -1,0 +1,77 @@
+{% load poll_extras %}
+
+
+<div class="row">
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Nom et Prénom :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Ville :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.town }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Adresse :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.provider_address }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Num Fix :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.fixed_phone }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Num Mobile:</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.mobile_phone }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Emaail:</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.email }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>RIB :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.rib }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>NIF :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.nif }}</label>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-5 col-md-2">
+            <label>Raison Comercial :</label>
+        </div>
+        <div class="col-xs-7 col-md-10">
+            <label class="item-name">{{ provider.r_commerce }}</label>
+        </div>
+    </div>
+</div>

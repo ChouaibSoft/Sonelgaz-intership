@@ -1,0 +1,119 @@
+{% extends 'baseForm.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block TitleHTML %}
+    Nouvelle Facture
+{% endblock %}
+
+{% block the_form %}
+    {% load django_bootstrap_breadcrumbs %}
+    <div class="row">
+        <div class="col-xs-6">
+        <h2>Nouvelle  Facture</h2>
+        </div>
+        <div class="col-xs-6">
+            {% block content %}
+                {{ block.super }}
+                {% breadcrumb "Ajouter" "create_bill" %}
+                {% breadcrumb "Facture" "#" %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="direct-content">
+        <form method="post" action="{% url 'create_bill' %} ">
+          {% csrf_token %}
+          <div class="form-group row">
+            <label for="inputBillNum" class="col-sm-3 col-form-label">{{ form.bill_num.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.bill_num class="form-control" placeholder="Numéro de facture" type="text"  id="inputBillNum" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputObject" class="col-sm-3 col-form-label">{{ form.object.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.object class="form-control" placeholder="Objet" type="text"  id="inputBillNum" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputBillType" class="col-sm-3 col-form-label">{{ form.bill_type.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.bill_type class="form-control" placeholder="Type de facture" type="text"  id="inputBIllType" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputProvider" class="col-sm-3 col-form-label">{{ form.provider.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.provider class="form-control" placeholder="Fournisseur" type="text"  id="inputProvider" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputService" class="col-sm-3 col-form-label">{{ form.service.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.service class="form-control" placeholder="Service" type="text"  id="inputService" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputDistrict" class="col-sm-3 col-form-label">{{ form.district.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.district class="form-control" placeholder="District" type="text"  id="inputDistrict" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputBillingDate" class="col-sm-3 col-form-label">{{ form.billing_date.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.billing_date class="form-control" placeholder="Date de facturation" type="date"  id="inputBillingDate"  required="True" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputMontantHT" class="col-sm-3 col-form-label">{{ form.ht_amount.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.ht_amount class="form-control" placeholder="Montant HT" type="text"  id="inputMontantHT" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPenaltyRate" class="col-sm-3 col-form-label">{{ form.penalty_rate.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.penalty_rate class="form-control" placeholder="taux de pénalité" type="text"  id="inputPenaltyRate" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputTva" class="col-sm-3 col-form-label">{{ form.tva.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.tva class="form-control" placeholder="TVA" id="inputTva" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputOtherCoasts" class="col-sm-3 col-form-label">{{ form.other_coasts.label_tag }}</label>
+            <div class="col-sm-9">
+              {% render_field form.other_coasts class="form-control" placeholder="Autres frais" type="text"  id="inputOtherCoasts" %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="submit-btn">
+                  <i class="far fa-check-square btn-icon-prepend"></i>
+                  Valider</button>
+            </div>
+          </div>
+        </form>
+    </div>
+
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script type="text/javascript">
+
+    //Form Validation
+    $(".submit-btn").click(function () {
+        var UserDate = document.getElementById("inputBillingDate").value;
+        var ToDate = new Date();
+
+        if (new Date(UserDate).getTime() >= ToDate.getTime()) {
+            alert("La date de facturation doit être plus inférieur ou égale à la date d'aujourd'hui");
+            return false;
+        }
+        return true;
+    });
+
+
+    </script>
+{% endblock %}

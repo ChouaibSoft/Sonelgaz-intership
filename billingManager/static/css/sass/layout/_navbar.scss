@@ -1,0 +1,140 @@
+/* Start NavBar */
+
+.navbar{
+    background: #fff;
+    padding: 0;
+    margin-bottom: 0;
+    border:none;
+    .navbar-brand{
+        margin-top: 11px;
+        margin-left: 11% !important;
+        width: 80px;
+        height: 78px;
+        position: relative;
+      img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        @include prefixer(background-size, cover, webkit moz o ms);
+      }
+      .acronim {
+        position: absolute;
+        z-index: 99999;
+        top: -13px;
+        right: -138%;
+        h2 {
+          color: #777;
+          font-size: 16px !important;
+          font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        }
+      }
+    }
+    .search-field{
+      position: absolute;
+      margin-left: 15%;
+      i{
+        color: #686868;
+        font-size: 16px;
+      }
+      .fa-bars{
+        color: #111111;
+        margin-right: 35px;
+        margin-left: -35px;
+        font-size: 19px;
+      }
+      input{
+        background-color: transparent;
+        border:none;
+        color: #686868;
+        opacity: 1;
+        padding: 5px 8px;
+        margin-top: -5px;
+      }
+    }
+    @media #{$maxSmall} {
+        background-color: #fff !important;
+        border: none !important;
+        padding: 15px !important;
+        .navbar-collapse li a{
+          color: #111 !important;
+        }
+    }
+    @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+    .navbar-collapse{
+      padding-top: 20px;
+      li a{
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 15px 14px;
+            border-bottom: 1px solid transparent;
+        }
+    }
+    .logout{
+        margin-top: -74px;
+        margin-right: 29px;
+        .dropdown-menu{
+          top: 105%;
+          left: -3px;
+          a{
+            &:hover{
+              background-color: $hoverColor !important;
+            }
+          }
+        }
+        li{
+          list-style: none;
+        }
+      img{
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background-size: cover;
+      }
+    }
+    .sonelgaz-logo{
+      padding: 0 0 10px 0;
+      margin-right: 2%;
+      img{
+        width: 61px;
+        height: 68px;
+      }
+    }
+}
+@media (max-width: 992px) {
+  .navbar {
+    .navbar-brand {
+      margin-top: 11px;
+      margin-left: 2% !important;
+      width: 70px;
+      height: 70px;
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        @include prefixer(background-size, cover, webkit moz o ms);
+      }
+      .acronim {
+        position: absolute;
+        z-index: 99999;
+        top: -13px;
+        right: -133%;
+        h2 {
+          color: #777;
+          font-size: 17px;
+        }
+      }
+    }
+    .logout{
+      right: 2% !important;
+      margin-right: 0 !important;
+    }
+  }
+}
+/* End NavBar */

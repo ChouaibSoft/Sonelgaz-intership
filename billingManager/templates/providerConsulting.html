@@ -1,0 +1,145 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block TitleHTML %}
+    Consultation des fournisseurs
+{% endblock %}
+
+{% block the_form %}
+
+<div class="alert top alert-success" role="alert">
+  Operation effectué avec succès !
+</div>
+<div class="alert top alert-danger" role="alert">
+    Operation a échoué car il est lié à une autre entité !
+</div>
+{% load django_bootstrap_breadcrumbs %}
+<div class="row">
+    <div class="col-xs-6">
+    <h2>Consultation des Fournisseurs</h2>
+    </div>
+    <div class="col-xs-6">
+        {% block content %}
+            {{ block.super }}
+            {% breadcrumb "Consulter" "provider_consulting" %}
+            {% breadcrumb "Fournisseurs" "#" %}
+        {% endblock %}
+    </div>
+</div>
+{% if filter.qs.count != 0 %}
+<div class="direct-content">
+    <div class="filter-section">
+        <form method="get">
+           {% csrf_token %}
+            <div class="row">
+                <div class="col-xs-12 col-md-3" style="padding-left: 0">
+                    {% render_field filter.form.provider_last_name class="form-control" placeholder="Nom du fournisseur" %}
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    {% render_field filter.form.town class="form-control" %}
+                </div>
+                <div class="col-xs-12 col-md-2 pull-right">
+                    <button type="submit" class="filter-btn">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-hover table-striped table-bordered" id="provider-table">
+      <thead>
+        <tr>
+          <th scope="col">#Nom et Pénom</th>
+          <th scope="col">#Adresse</th>
+          <th scope="col">#Ville</th>
+          <th scope="col">#Num fix</th>
+          <th scope="col">#Num tél</th>
+          <th scope="col">#RIB</th>
+          <th scope="col">#NIF</th>
+          <th scope="col" width="10%">#Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% include 'includes/partial_provider_list.html' %}
+      </tbody>
+    </table>
+        <a href="{% url "create_provider" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+        {% include "pagination.html" with page=provider_filters %}
+</div>
+{% else %}
+<div class="direct-content">
+    <div class="alert alert-info" role="alert">
+        Aucun fournisseur disponible !
+    </div>
+    <a href="{% url "create_provider" %}"><button class="submit-btn"><i class="fa fa-plus"></i> Ajouter</button></a>
+</div>
+{% endif %}
+<!-- THE MODAL WE WILL BE USING -->
+<div class="modal fade" id="modal-provider">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+$('#id_town option:first').text('Par ville');
+$(function () {
+
+  /* Functions */
+
+  var loadForm = function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#modal-provider").modal("show");
+      },
+      success: function (data) {
+        $("#modal-provider .modal-content").html(data.html_form);
+      }
+    });
+  };
+
+  var saveForm = function () {
+    var form = $(this);
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          $("#provider-table tbody").html(data.html_provider_list);
+          $("#modal-provider").modal("hide").delay(1000);
+          $(".alert-success").slideDown(300).delay(2500).slideUp(300);
+        }
+        else {
+          $("#modal-provider .modal-content").html(data.html_form);
+          console.log("hello");
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $("#modal-provider").modal("hide").delay(1000);
+          $(".alert-danger").slideDown(300).delay(2500).slideUp(300);
+     }
+    });
+    return false;
+  };
+
+
+  /* Binding */
+
+    //Update Provider
+    $("#provider-table").on("click", ".js-update-provider", loadForm);
+    $("#modal-provider").on("submit", ".js-provider-update-form", saveForm);
+
+    // Delete Provider
+    $("#provider-table").on("click", ".js-delete-provider", loadForm);
+    $("#modal-provider").on("submit", ".js-provider-delete-form", saveForm);
+
+
+});
+</script>
+{% endblock %}

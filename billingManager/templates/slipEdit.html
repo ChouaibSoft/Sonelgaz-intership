@@ -1,0 +1,69 @@
+{% extends 'baseForm.html'   %}
+{% load poll_extras %}
+{% load static %}
+{% load widget_tweaks %}
+{% block TitleHTML %}
+    Edition du bordereau
+{% endblock %}
+
+
+{% block the_form %}
+{% load django_bootstrap_breadcrumbs %}
+<div class="row">
+    <div class="col-xs-6">
+    <h2>Edition du bordereau</h2>
+    </div>
+    <div class="col-xs-6">
+        {% block content %}
+            {{ block.super }}
+            {% breadcrumb "Edition" "slip_edit" %}
+            {% breadcrumb "Bordereau" "#" %}
+        {% endblock %}
+    </div>
+</div>
+<div class="direct-content">
+    <div class="filter-section">
+        <form method="get">
+           {% csrf_token %}
+            <div class="row">
+                <div class="col-xs-12 col-md-4" style="padding-left: 0">
+                    {% render_field form.service class="form-control" placeholder="Service" %}
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <button type="submit" class="filter-btn">Afficher</button>
+                </div>
+                <div class="col-xs-12 col-md-2 pull-right">
+                    <a href="{% url 'reporting_BO' pk=slip_id %}"><button type="button" class="print-btn"><i class="fa fa-print"></i> Bordereau</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if bills.count == 0 or bills.count is None %}
+    <div class="alert alert-info" role="alert">
+        Aucune Facture disponible !
+    </div>
+    {% else %}
+    <table class="table table-hover table-striped table-bordered" id="provider-table">
+      <thead>
+        <tr>
+          <th scope="col">Numero</th>
+          <th scope="col">Fournisseur</th>
+          <th scope="col">Service</th>
+          <th scope="col">District</th>
+          <th scope="col">Date saisie</th>
+          <th scope="col">Montant HT</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% include 'includes/partial_bill_service_slip_opened.html' %}
+      </tbody>
+    </table>
+    {% include "pagination.html" with page=bills %}
+    {% endif %}
+</div>
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+$('#id_service option:first').text('Choisir un service..');
+</script>
+
+{% endblock %}

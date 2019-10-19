@@ -1,0 +1,82 @@
+{% load poll_extras %}
+{% load static %}
+{% for bill in bill_filters %}
+        <tr style="cursor: default">
+            <td>
+                {{ bill.bill_num }}
+            </td>
+            <td>
+                {{ bill.provider.provider_last_name}} {{ bill.provider.provider_first_name }}
+            </td>
+            <td>
+                {{ bill.service }}
+            </td>
+            <td>
+                {{ bill.district}}
+            </td>
+            <td>
+                {{ bill.entry_date}}
+            </td>
+            <td>
+                {{ bill.ht_amount}} DA
+            </td>
+            <td class="bill-state" data-decision_or="decision{{ bill.decision_BO }}"
+                data-slip="{{ bill.slip.closed}}"
+                data-ser_slip="{{ bill.service_slip.closed }}"
+                data-decision_st="decision{{ bill.decision_ST }}"
+                data-decision_fc="decision{{ bill.decision_FC }}"
+                data-ov="ov{{ bill.transfer_order }}">
+            </td>
+            <td>
+                <a href="{% url 'bill_detail' pk=bill.bill_id %}"><i class="fa fa-plus"></i></a>
+            </td>
+        </tr>
+{% endfor%}
+
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script>
+    $(document).ready(function () {
+
+    //Bill State Span
+    $(".staff-table .bill-state").each(function () {
+        if($(this).data("decision_or") === "decision3") {
+            $(this).append("<span class='reject-span'>Rejetée BO</span>");
+        }else if($(this).data("decision_or") === "decision1"){
+            $(this).append("<span class='waiting-span'>En cour BO</span>");
+        }else{
+            if(($(this).data("slip") === "True")){
+
+                if($(this).data("decision_st") === "decision3"){
+                    $(this).append("<span class='reject-span'>Rejetée ST</span>");
+                }else if($(this).data("decision_st") === "decision1"){
+                    $(this).append("<span class='waiting-span'>En cour ST</span>");
+                }else{
+                    if(($(this).data("ser_slip") === "True")){
+
+                        if($(this).data("decision_fc") === "decision3"){
+                            $(this).append("<span class='reject-span'>Rejetée SF</span>");
+                        }else if ($(this).data("decision_fc") === "decision1"){
+                            $(this).append("<span class='waiting-span'>En cour SF</span>");
+                        }else{
+                            if($(this).data("ov") !== 'ov'){
+                                $(this).append("<span class='accept-span'>Acpt avec OV</span>");
+                            }else{
+                                $(this).append("<span class='accept-span'>Accéptée SF</span>");
+                            }
+                        }
+
+                    }else{
+                        $(this).append("<span class='accept-span'>Accéptée ST</span>");
+                    }
+                }
+
+
+            }else{
+                $(this).append("<span class='accept-span'>Accéptée BO</span>");
+            }
+        }
+    });
+
+
+});
+</script>

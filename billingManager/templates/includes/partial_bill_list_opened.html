@@ -1,0 +1,28 @@
+{% load poll_extras %}
+{% for bill in bill_filters %}
+        <tr data-url={% url 'bill_treatment' pk=bill.bill_id %}>
+            <td>
+                {{ bill.bill_num }}
+            </td>
+            <td>
+                {{ bill.provider.provider_last_name}} {{ bill.provider.provider_first_name }}
+            </td>
+            <td>
+                {{ bill.service }}
+            </td>
+            <td>
+                {{ bill.district}}
+            </td>
+            <td>
+                {{ bill.entry_date}}
+            </td>
+            <td>
+                {{ bill.ht_amount}} DA
+            </td>
+            <td class="not-allowed">
+                <a href="{% url 'bill_treatment' pk=bill.bill_id %}"><i class="fa fa-plus"></i></a>
+                <button type="button" data-url="{% url 'bill_update' pk=bill.bill_id %}" class="js-update-bill"><i class="fa fa-edit"></i></button>
+                <button type="button" data-url="{% url 'bill_delete' pk=bill.bill_id %}" class="js-delete-bill"><i class="fa fa-trash-alt"></i></button>
+            </td>
+        </tr>
+{% endfor%}

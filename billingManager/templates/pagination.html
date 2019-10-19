@@ -1,0 +1,40 @@
+<!-- Start Pagination Section -->
+<div class="pagination-div">
+    <div class="current pull-left">
+        <span>Page <strong>{{ page.number  }}</strong> sur <strong>{{ page.paginator.num_pages }}</strong></span>
+    </div>
+    <ul class="pagination pull-right">
+        <li class="page-item">
+            {% if not page.has_previous %}
+               <a href="#"  style="cursor: not-allowed">< Précédent</a>
+            {% else %}
+              <a href="?page={{ page.previous_page_number }}&{{ request.get_full_path }}">< Précédent</a>
+            {% endif %}
+        </li>
+        <!-- PAGES PART -->
+            <!-- PAGES PART -->
+        {% for num in page.paginator.page_range %}
+            <!-- Active page -->
+            {% if num == page.number %}
+                    <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+                <!-- Show current page and +-3 pages -->
+                {% if num|add:"-3" <= page.number and page.number <= num|add:"3" %}
+                    <li><a href="?page={{ num }}&{{ request.get_full_path }}">{{ num }}</a></li>
+                <!-- Shows every 10th page and the last page -->
+                {% elif num|divisibleby:"6" or num == page.paginator.num_pages %}
+                    <li><a href="?page={{ num }}&{{ request.get_full_path }}">{{ num }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <li class="page-item">
+            {% if not page.has_next %}
+                 <a href="#" style="cursor: not-allowed">Suivant ></a>
+            {% else %}
+                <a href="?page={{ page.next_page_number }}&{{ request.get_full_path }}">Suivant ></a>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+
+<!-- End Pagination  Section -->

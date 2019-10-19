@@ -1,0 +1,66 @@
+{% load static %}
+
+    <div class="progress-state">
+        <ul class="list-unstyled">
+            <li class="order-office" data-decision="decision{{ bill.decision_BO }}" data-slip="{{ bill.slip.closed }}"><a>Bureau d'ordre</a></li>
+            <li class="t-service" data-decision="decision{{ bill.decision_ST }}" data-slip="{{ bill.service_slip.closed }}"><a>Service Traitant</a></li>
+            <li class="f-service" data-decision="decision{{ bill.decision_FC }}"><a>Service Finance</a></li>
+            <li class="ov" data-ov="ov{{ bill.transfer_order }}"><a>Ordre de Virement</a></li>
+        </ul>
+    </div>
+
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+
+        //Pregress State Color
+        var order_office = $(".order-office"),
+            service_t = $ (".t-service"),
+            service_f = $(".f-service"),
+            order_v = $(".ov");
+        if(order_office.data("decision") === "decision1"){
+            order_office.removeClass();
+            order_office.addClass("order-office waiting");
+        }else if(order_office.data("decision") === "decision2"){
+            order_office.removeClass();
+            order_office.addClass("order-office accepted");
+
+            if (order_office.data("slip") === "True"){
+                if (service_t.data("decision") === "decision1"){
+                    service_t.removeClass();
+                    service_t.addClass("t-service waiting");
+                }else if(service_t.data("decision") === "decision2"){
+                    service_t.removeClass();
+                    service_t.addClass("t-service accepted");
+
+                    if(service_t.data("slip") === "True"){
+                        if (service_f.data("decision") === "decision1"){
+                            service_f.removeClass();
+                            service_f.addClass("f-service waiting");
+                        }else if(service_f.data("decision") === "decision2"){
+                            service_f.removeClass();
+                            service_f.addClass("f-service accepted");
+                            if (order_v.data("ov") !== 'ov'){
+                                order_v.removeClass();
+                                order_v.addClass("ov accepted");
+                            }
+                        }else{
+                            service_f.removeClass();
+                            service_f.addClass("f-service refused");
+                        }
+                    }
+
+                }else{
+                    service_t.removeClass()
+                    service_t.addClass("t-service refused");
+                }
+
+            }
+        }
+        else{
+            order_office.removeClass();
+            order_office.addClass("order-office refused");
+        }
+
+    });
+    </script>

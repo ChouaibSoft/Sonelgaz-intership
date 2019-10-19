@@ -1,0 +1,19 @@
+.pagination-div{
+  .current{
+    margin-top:43px;
+    margin-left: -5px;
+    span{
+      color: #111111;
+    }
+  }
+  .pagination{
+    margin-top:40px;
+    margin-right: -15px;
+    .active{
+      a{
+        background-color: $mainColor;
+        border: 1px solid $mainColor;
+      }
+    }
+  }
+}

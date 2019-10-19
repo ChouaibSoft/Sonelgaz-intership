@@ -1,0 +1,140 @@
+.submit-btn{
+  background-color: $mainColor !important;
+  padding: 0.625rem 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+  &:hover{
+    background-color: transparent !important;
+    color: $mainColor !important;
+    border: 1px solid $mainColor !important;
+  }
+}
+.edit-btn{
+  background-color: #ffb606;
+  padding: 0.625rem 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+  &:hover{
+    background-color: transparent;
+    color: #ffb606;
+    border: 1px solid #ffb606;
+  }
+}
+.accept-btn{
+  background-color: $acceptedColor;
+  padding: 0.60rem 1rem;
+  color: #fff;
+  font-size: 18px;
+  margin-right: 10px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+  &:hover{
+    background-color: transparent;
+    color: $acceptedColor;
+    border: 1px solid $acceptedColor;
+  }
+}
+.reject-btn{
+  background-color: #FF5E6D;
+  padding: 0.60rem 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+  &:hover{
+    background-color: transparent;
+    color: #FF5E6D;
+    border: 1px solid #FF5E6D;
+  }
+}
+.delete-btn{
+  background-color: #f26522;
+  padding: 0.60rem 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+  &:hover{
+    background-color: transparent;
+    color: #f26522;
+    border: 1px solid #f26522;
+  }
+}
+%state-span{
+  padding: 0.60rem 1rem;
+  color: #fff;
+  font-size: 13px;
+  margin-right: 10px;
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+}
+.accept-span{
+  @extend %state-span;
+  background-color: $acceptedColor;
+}
+.waiting-span{
+  @extend %state-span;
+  background-color: $mainColor;
+}
+.reject-span{
+  @extend %state-span;
+  background-color: #FF5E6D;
+}
+.filter-btn{
+  background-color: $mainColor;
+  width: 100%;
+  height: 33px;
+  padding: 4px 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+    &:hover{
+    background-color: transparent;
+    color: $mainColor;
+    border: 1px solid $mainColor;
+  }
+}
+.print-btn{
+  background-color: #ffb606;
+  width: 100%;
+  height: 33px;
+  padding: 4px 1rem;
+  color: #fff;
+  font-size: 18px;
+  @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+  @include prefixer(border-radius, 5px, webkit moz o ms);
+  border:none;
+    &:hover{
+    background-color: transparent;
+    color: #ffb606;
+    border: 1px solid #ffb606;
+  }
+}
+.modal-footer{
+  .close-btn{
+    padding: 0.3rem .85rem !important;
+    background-color: transparent;
+    border: 1px solid $hoverColor !important;
+    font-size: 18px;
+    color: #777;
+    margin-right: 10px;
+    @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+    @include prefixer(border-radius, 5px, webkit moz o ms);
+    &:hover{
+      background-color: $hoverColor !important;
+    }
+  }
+  .submit-btn{
+    padding: 0.3rem .85rem !important;
+  }
+}

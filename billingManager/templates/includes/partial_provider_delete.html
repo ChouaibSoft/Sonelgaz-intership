@@ -1,0 +1,16 @@
+<form method="post" action="{% url 'provider_delete' pk=provider.provider_id %}" class="js-provider-delete-form">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title"><strong>Confirmer la suppression</strong></h4>
+  </div>
+  <div class="modal-body">
+    <p class="lead">Êtes-vous sûr de vouloir supprimer le Fournisseur  <strong>{{ provider.provider_num}}</strong>?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close-btn" data-dismiss="modal">Annuler</button>
+    <button type="submit" class="submit-btn">Supprimer</button>
+  </div>
+</form>

@@ -1,0 +1,14 @@
+ {% load widget_tweaks %}
+
+  <div class="form-group row">
+    <label for="inputserviceName" class="col-sm-4 col-form-label">{{ form.service_name.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.service_name class="form-control" placeholder="Designation du service" type="text"  id="inputserviceName" %}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputServiceAbv" class="col-sm-4 col-form-label">{{ form.service_abv.label_tag }}</label>
+    <div class="col-sm-8">
+      {% render_field form.service_abv class="form-control" placeholder="Abreviation du service" type="text"  id="inputServiceAbv" %}
+    </div>
+  </div>

@@ -1,0 +1,44 @@
+{% extends 'baseForm.html' %}
+{% load widget_tweaks %}
+
+{% block TitleHTML %}
+    Nouveau Utilisateur
+{% endblock %}
+
+
+{% block the_form %}
+
+    <form method="post" action="{% url 'create_provider' %} ">
+
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Valider" />
+
+    </form>
+    <h2>Nouveau Utilisateur</h2>
+    <div class="direct-content">
+    <form>
+      <div class="form-group row">
+        <label for="inputUserLastName" class="col-sm-3 col-form-label">{{ form.last_name.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.last_name class="form-control" placeholder="Nom" type="text"  id="inputUserLastName" %}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputUserFirstName" class="col-sm-3 col-form-label">{{ form.first_name.label_tag }}</label>
+        <div class="col-sm-9">
+          {% render_field form.first_name class="form-control" placeholder="Prènom" type="text"  id="inputUserFirstName" %}
+        </div>
+      </div>
+      <div class="form-group row"
+        <div class="col-sm-10">
+          <button type="submit" class="submit-btn">
+              <i class="far fa-check-square btn-icon-prepend"></i>
+              Valider</button>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+aside{
+    position: fixed;
+    top: 0;
+    text-align: center;
+    width: 20%;
+    background-color: #fff;
+    height: 100%;
+    padding:2% 0;
+    z-index: 999;
+    box-shadow: 0px 1px 35px rgba(0, 0, 0, 0.05);
+    .fa-bars{
+      overflow:visible;
+      font-size: 20px;
+      right: -30px;
+      top: 98px;
+      background-color: #000;
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      z-index: 9999;
+  }
+  .profile-image{
+    img{
+      margin-top: 90px;
+      margin-left: 35px;
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+    }
+  }
+  .profile-information{
+    margin-top: 100px;
+    h2{
+      font-size: 18px;
+      text-align: left;
+      margin-bottom: -15px;
+      color: #111;
+    }
+    h3{
+      color: #777;
+      text-align: left;
+      font-size: 15px;
+      margin-bottom: -15px;
+    }
+  }
+  .link{
+    position: relative;
+    ul{
+      padding-top: 20px;
+      border-top: 1px solid #dcdcdc1a;
+      margin-top: 10px;
+      text-align: left;
+      color: #000;
+      .item{
+        font-size: 15px;
+        line-height: 5px;
+        padding: 15px 5px 15px 40px;
+        color: #777;
+        position: relative;
+        cursor: pointer;
+        @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+        i{
+          margin-right: 25px;
+        }
+        .fa-less-than{
+          position: absolute;
+          right: 5px;
+          color: #999;
+          @include prefixer(transform, rotate(180deg), webkit moz o ms);
+
+        }
+        &:hover{
+          background-color: $hoverColor;
+        }
+       }
+       .info{
+         padding: 5px 50px;
+         display: none;
+         ul{
+          margin-top: 0;
+          padding-top: 0;
+          li{
+            padding: 5px 0 5px 40px;
+            color: #777777;
+            @include prefixer(transition, all .2s ease-in-out, webkit moz o ms);
+            &:hover{
+              margin-left: 5px;
+              color: #111111;
+            }
+          }
+        }
+       }
+       .now{
+         background-color: $hoverColor !important;
+       }
+       a{
+         text-decoration: none;
+         color: #777;
+       }
+      .selected{
+        border-left: 4px solid $mainColor;
+        background-color: #f5f5f5 !important;
+        color: $mainColor !important;
+        i{
+          color: $mainColor !important;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1200px) {
+   aside{
+        width: 235px;
+        .fa-bars{
+          display: none;
+        }
+        .profile-information {
+          margin-top: 94px;
+          margin-left: 11px;
+        }
+    }
+}
+@media (max-width: 992px) {
+    #loader-1:before, #loader-1:after{
+        left: -10px;
+    }
+    aside{
+        width: 255px;
+        left: -255px;
+        padding-top: 30px;
+        .fa-bars{
+            overflow:visible;
+            font-size: 20px;
+            right: -30px;
+            top: 147px;
+            background-color: #000;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            z-index: 9999;
+        }
+        &:after{
+          content: '';
+          right: -30px;
+          top: 148px !important;
+          background-color: #fff;
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          line-height: 30px;
+          text-align: center;
+          border-radius: 0 10px 10px 0;
+          cursor: pointer;
+          overflow: visible;
+        }
+        .profile-image{
+          padding-left: 0 !important;
+        }
+        .profile-information {
+          margin-top: 96px;
+          margin-left: 0px;
+        }
+    }
+}
